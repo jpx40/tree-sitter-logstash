@@ -1,0 +1,243 @@
+{
+  "name": "logstash",
+  "rules": {
+    "source_file": {
+      "type": "REPEAT",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "plugin_section"
+          }
+        ]
+      }
+    },
+    "double_quoted_string": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_string_start"
+          },
+          "named": false,
+          "value": "\""
+        },
+        {
+          "type": "SYMBOL",
+          "name": "double_contents"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_string_end"
+          },
+          "named": false,
+          "value": "\""
+        }
+      ]
+    },
+    "single_quoted_string": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_string_start"
+          },
+          "named": false,
+          "value": "'"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "single_contents"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_string_end"
+          },
+          "named": false,
+          "value": "'"
+        }
+      ]
+    },
+    "double_contents": {
+      "type": "PATTERN",
+      "value": "[^']+"
+    },
+    "single_contents": {
+      "type": "PATTERN",
+      "value": "[^']+"
+    },
+    "string": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "double_quoted_string"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "single_quoted_string"
+        }
+      ]
+    },
+    "cs": {
+      "type": "REPEAT1",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "comment"
+          }
+        ]
+      }
+    },
+    "_comment_char": {
+      "type": "STRING",
+      "value": "#"
+    },
+    "comment": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_comment_char"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_comment_contents"
+        }
+      ]
+    },
+    "_comment_contents": {
+      "type": "PATTERN",
+      "value": "[^\\r\\n]*"
+    },
+    "carriage_return": {
+      "type": "PATTERN",
+      "value": "\\r"
+    },
+    "whitespace": {
+      "type": "PATTERN",
+      "value": "[ \\t]+"
+    },
+    "plugin_section": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "plugin_type"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_plugin_open"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "plugin"
+          }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_plugin_close"
+        }
+      ]
+    },
+    "plugin_type": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "input"
+        },
+        {
+          "type": "STRING",
+          "value": "filter"
+        },
+        {
+          "type": "STRING",
+          "value": "output"
+        }
+      ]
+    },
+    "plugin_name": {
+      "type": "PATTERN",
+      "value": "[A-Za-z0-9_-]+"
+    },
+    "plugin_content": {
+      "type": "PATTERN",
+      "value": "[A-Za-z0-9_-]+"
+    },
+    "plugin": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "plugin_name"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_plugin_open"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "plugin_content"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_plugin_close"
+        }
+      ]
+    },
+    "branch_or_plugin": {
+      "type": "SYMBOL",
+      "name": "plugin"
+    },
+    "_string_start": {
+      "type": "STRING",
+      "value": "\""
+    },
+    "_string_end": {
+      "type": "STRING",
+      "value": "\""
+    },
+    "_plugin_open": {
+      "type": "STRING",
+      "value": "{"
+    },
+    "_plugin_close": {
+      "type": "STRING",
+      "value": "}"
+    }
+  },
+  "extras": [
+    {
+      "type": "PATTERN",
+      "value": "\\s"
+    },
+    {
+      "type": "PATTERN",
+      "value": "[\\r?\\n]"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "comment"
+    }
+  ],
+  "conflicts": [],
+  "precedences": [],
+  "externals": [],
+  "inline": [],
+  "supertypes": []
+}
+

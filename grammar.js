@@ -42,7 +42,8 @@ module.exports = grammar({
 	regexp: $ => seq("/", repeat(choice("\\/", /[^\/]/)) ,"/"),
 	string: $ => choice(
 		$.double_quoted_string,
-		$.single_quoted_string
+		$.single_quoted_string,
+		$.code_string
 	),
 
 	cs: $ => repeat1(seq(

@@ -198,6 +198,10 @@
         {
           "type": "SYMBOL",
           "name": "single_quoted_string"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "code_string"
         }
       ]
     },

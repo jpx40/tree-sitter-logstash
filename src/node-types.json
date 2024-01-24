@@ -739,6 +739,10 @@
     "named": false
   },
   {
+    "type": "`",
+    "named": false
+  },
+  {
     "type": "and",
     "named": false
   },
@@ -748,6 +752,10 @@
   },
   {
     "type": "bareword",
+    "named": true
+  },
+  {
+    "type": "code_contents",
     "named": true
   },
   {

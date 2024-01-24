@@ -23,6 +23,14 @@ module.exports = grammar({
 		"\'"
 	),
 
+	code_string: $ => seq(
+		"`",
+		$.code_contents,
+		"`"
+	),
+
+	code_contents: $ => /[^`]+/,
+
 	double_contents: $ => /[^"]+/,
 
 	single_contents: $ => /[^']+/,

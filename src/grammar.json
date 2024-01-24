@@ -47,6 +47,27 @@
         }
       ]
     },
+    "code_string": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "`"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "code_contents"
+        },
+        {
+          "type": "STRING",
+          "value": "`"
+        }
+      ]
+    },
+    "code_contents": {
+      "type": "PATTERN",
+      "value": "[^`]+"
+    },
     "double_contents": {
       "type": "PATTERN",
       "value": "[^\"]+"

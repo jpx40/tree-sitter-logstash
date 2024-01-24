@@ -27,7 +27,7 @@
 ; Operators
 
 [
-"=>"
+(arrow)
 ] @operator
 
 [

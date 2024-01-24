@@ -288,13 +288,11 @@
             "type": "CHOICE",
             "members": [
               {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "attribute"
-                  }
-                ]
+                "type": "REPEAT1",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "attribute"
+                }
               },
               {
                 "type": "BLANK"
@@ -321,6 +319,10 @@
         }
       ]
     },
+    "arrow": {
+      "type": "STRING",
+      "value": "=>"
+    },
     "attribute": {
       "type": "SEQ",
       "members": [
@@ -329,16 +331,12 @@
           "name": "name"
         },
         {
-          "type": "STRING",
-          "value": "=>"
+          "type": "SYMBOL",
+          "name": "arrow"
         },
         {
           "type": "SYMBOL",
           "name": "value"
-        },
-        {
-          "type": "PATTERN",
-          "value": "\\s*\\r?\\n"
         }
       ]
     },
@@ -830,25 +828,29 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "number"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "bareword"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "string"
-            }
-          ]
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "number"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "bareword"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "string"
+              }
+            ]
+          }
         },
         {
-          "type": "STRING",
-          "value": "=>"
+          "type": "SYMBOL",
+          "name": "arrow"
         },
         {
           "type": "SYMBOL",
@@ -997,7 +999,7 @@
     },
     {
       "type": "PATTERN",
-      "value": "[\\r?\\n]"
+      "value": "\\r?\\n"
     },
     {
       "type": "SYMBOL",

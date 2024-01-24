@@ -7,6 +7,10 @@ input {
 	} else {
 		mongodb {
 			server => "asdf"
+			server => "asdf"
+			server => "asdf"
+			server => "asdf"
+			server => "asdf"
 		}
 	}
 }

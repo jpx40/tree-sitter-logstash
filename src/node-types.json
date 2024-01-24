@@ -23,6 +23,10 @@
       "required": true,
       "types": [
         {
+          "type": "arrow",
+          "named": true
+        },
+        {
           "type": "name",
           "named": true
         },
@@ -253,21 +257,32 @@
   {
     "type": "hashentry",
     "named": true,
-    "fields": {},
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "bareword",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
       "types": [
         {
-          "type": "bareword",
-          "named": true
-        },
-        {
-          "type": "number",
-          "named": true
-        },
-        {
-          "type": "string",
+          "type": "arrow",
           "named": true
         },
         {
@@ -422,7 +437,7 @@
     "named": true,
     "fields": {
       "attributes": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
@@ -700,10 +715,6 @@
     "named": false
   },
   {
-    "type": "=>",
-    "named": false
-  },
-  {
     "type": "=~",
     "named": false
   },
@@ -730,6 +741,10 @@
   {
     "type": "and",
     "named": false
+  },
+  {
+    "type": "arrow",
+    "named": true
   },
   {
     "type": "bareword",

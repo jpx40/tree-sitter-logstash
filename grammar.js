@@ -3,7 +3,7 @@ module.exports = grammar({
 
   extras: $ => [
 	/\s/,
-	/[\r?\n]/,
+	/\r?\n/,
 	$.comment
   ],
 
@@ -66,7 +66,7 @@ module.exports = grammar({
 	plugin: $ => seq(
 		$.plugin_name,
 		"{",
-		field("attributes", optional(seq($.attribute))),
+		field("attributes", optional(repeat1($.attribute))),
 		"}",
 	),
 
@@ -75,11 +75,12 @@ module.exports = grammar({
 		$.string
 	),
 
+	arrow: $ => "=>",
+
 	attribute: $ => seq(
 		$.name,
-		"=>",
-		$.value,
-		/\s*\r?\n/
+		$.arrow,
+		$.value
 	),
 
 	branch: $ => seq(
@@ -161,8 +162,8 @@ module.exports = grammar({
 	),
 
 	hashentry: $ => seq(
-		choice($.number, $.bareword, $.string),
-		"=>",
+		field("name", choice($.number, $.bareword, $.string)),
+		$.arrow,
 		$.value
 	),
 

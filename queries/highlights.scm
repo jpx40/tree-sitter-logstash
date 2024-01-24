@@ -4,10 +4,10 @@
 	"input"
 	"output"
 	"filter"
+	"if"
+	"else"
+	(plugin_name)
 ] @keyword
-
-((identifier) @keyword
- (#match? @keyword "^(private|protected|public)$"))
 
 ; Literals
 
@@ -16,36 +16,22 @@
   (bareword)
 ] @string
 
-(regex) @string.special.regex
-(escape_sequence) @escape
+(regexp) @string.special.regex
 
 [
   (number)
 ] @number
-
-[
-  (nil)
-  (true)
-  (false)
-]@constant.builtin
-
-(interpolation
-  "%{" @punctuation.special
-  "}" @punctuation.special) @embedded
 
 (comment) @comment
 
 ; Operators
 
 [
-"="
 "=>"
-"->"
 ] @operator
 
 [
   ","
-  ";"
   "."
 ] @punctuation.delimiter
 
@@ -57,3 +43,5 @@
   "{"
   "}"
 ] @punctuation.bracket
+
+(selector_element) @variable.parameter

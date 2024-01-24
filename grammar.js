@@ -12,21 +12,26 @@ module.exports = grammar({
     source_file: $ => repeat(seq($.plugin_section)),
 
 	double_quoted_string: $ => seq(
-		alias($._string_start, "\""),
+		"\"",
 		$.double_contents,
-		alias($._string_end, "\"")
+		"\""
 	),
 
 	single_quoted_string: $ => seq(
-		alias($._string_start, "\'"),
+		"\'",
 		$.single_contents,
-		alias($._string_end, "\'")
+		"\'"
 	),
 
-	double_contents: $ => /[^']+/,
+	double_contents: $ => /[^"]+/,
 
 	single_contents: $ => /[^']+/,
 
+	number: $ => seq(optional("-"), /[0-9]+/, optional(seq(".", repeat(/[0-9]/)))),
+	bareword: $ => /[A-Za-z_][A-Za-z0-9_]+/,
+	boolean_operator: $ => choice("and", "or", "xor", "nand"),
+	regexp_operator: $ => choice("=~", "!~"),
+	regexp: $ => seq("/", repeat(choice("\\/", /[^\/]/)) ,"/"),
 	string: $ => choice(
 		$.double_quoted_string,
 		$.single_quoted_string
@@ -50,7 +55,7 @@ module.exports = grammar({
 	plugin_section: $ => seq(
 		$.plugin_type,
 		$._plugin_open,
-		repeat($.plugin),
+		repeat($.branch_or_plugin),
 		$._plugin_close,
 	),
 
@@ -60,12 +65,125 @@ module.exports = grammar({
 
 	plugin: $ => seq(
 		$.plugin_name,
-		$._plugin_open,
-		$.plugin_content,
-		$._plugin_close,
+		"{",
+		field("attributes", optional(seq($.attribute))),
+		"}",
 	),
 
-	branch_or_plugin: $ => $.plugin,
+	name: $ => choice(
+		/[A-Za-z0-9_-]+/,
+		$.string
+	),
+
+	attribute: $ => seq(
+		$.name,
+		"=>",
+		$.value,
+		/\s*\r?\n/
+	),
+
+	branch: $ => seq(
+		$.if,
+		repeat($.else_if),
+		optional($.else)
+	),
+
+	if: $ => seq("if", $.condition, "{", repeat($.branch_or_plugin), "}"),
+	else_if: $ => seq("else", "if", $.condition, "{", repeat($.branch_or_plugin), "}"),
+	else: $ => seq("else", $.condition, "{", repeat($.branch_or_plugin), "}"),
+
+	condition: $ => seq($.expression, repeat(seq($.boolean_operator, $.expression))),
+
+	expression: $ => choice(
+		seq("(", $.condition, ")"),
+		$.negative_expression,
+		$.in_expression,
+		$.not_in_expression,
+		$.compare_expression,
+		$.regexp_expression,
+		$.rvalue
+	),
+
+	negative_expression: $ => choice(
+		seq("!", "(", $.condition, ")"),
+		seq("!", $.selector)
+	),
+	in_expression: $ => seq($.rvalue, $.in_operator, $.rvalue),
+	in_operator: $ => "in",
+	not_in_expression: $ => seq($.rvalue, $.not_in_operator, $.rvalue),
+	not_in_operator: $ => seq("not", "in"),
+
+	regexp_expression: $ => seq($.rvalue, $.regexp_operator, choice($.string, $.regexp)),
+
+	rvalue: $ => choice(
+		$.string,
+		$.number,
+		$.selector,
+		$.array,
+		$.method_call,
+		$.regexp,
+	),
+
+	value: $ => choice(
+		$.plugin,
+		$.bareword,
+		$.string,
+		$.number,
+		$.array,
+		$.hash
+	),
+
+	array_value: $ => choice(
+		$.bareword,
+		$.string,
+		$.number,
+		$.array,
+		$.hash
+	),
+
+	selector: $ => repeat1($.selector_element),
+	selector_element: $ => /\[[^\]\[,]+\]/,
+
+	array: $ => seq(
+		"[",
+		optional(seq($.value, repeat(seq(",", $.value)))),
+		"]"
+	),
+
+	hash: $ => seq(
+		"{",
+		optional($.hashentries),
+		"}",
+	),
+
+	hashentries: $ => seq(
+		$.hashentry, repeat($.hashentry)
+	),
+
+	hashentry: $ => seq(
+		choice($.number, $.bareword, $.string),
+		"=>",
+		$.value
+	),
+
+	method_call: $ => seq(
+		$.method, "(", optional(seq($.rvalue, repeat(seq(",", $.rvalue)))), ")"
+	),
+
+	method: $ => $.bareword,
+
+	compare_expression: $ => seq(
+		$.rvalue, $.compare_operator, $.rvalue,
+	),
+
+	compare_operator: $ => choice(
+		"==", "!=", "<=", ">=", "<", ">"
+	),
+
+	branch_or_plugin: $ => prec(15, choice(
+		$.branch,
+		$.plugin
+	)),
 
 	_string_start: $ => "\"",
 	_string_end: $ => "\"",

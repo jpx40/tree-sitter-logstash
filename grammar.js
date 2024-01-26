@@ -76,7 +76,7 @@ module.exports = grammar({
 	plugin_content: $ => /[A-Za-z0-9_-]+/,
 
 	plugin: $ => seq(
-		$.plugin_name,
+		alias($.bareword, $.plugin_name),
 		"{",
 		field("attributes", optional(repeat1($.attribute))),
 		"}",

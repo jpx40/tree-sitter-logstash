@@ -320,8 +320,13 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "plugin_name"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "bareword"
+          },
+          "named": true,
+          "value": "plugin_name"
         },
         {
           "type": "STRING",

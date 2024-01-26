@@ -493,11 +493,6 @@
     }
   },
   {
-    "type": "plugin_name",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "plugin_section",
     "named": true,
     "fields": {},
@@ -851,6 +846,10 @@
   {
     "type": "output",
     "named": false
+  },
+  {
+    "type": "plugin_name",
+    "named": true
   },
   {
     "type": "selector_element",

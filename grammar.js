@@ -141,11 +141,11 @@ module.exports = grammar({
 	value: $ => choice(
 		prec(10, $.plugin),
 		prec(9, $.bareword),
-		$.string,
-		$.number,
-		$.boolean,
-		$.array,
-		$.hash
+		prec(8, $.string),
+		prec(7, $.number),
+		prec(7, $.boolean),
+		prec(6, $.array),
+		prec(5, $.hash)
 	),
 
 	array_value: $ => choice(

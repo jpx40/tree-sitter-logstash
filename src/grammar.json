@@ -738,24 +738,44 @@
           }
         },
         {
-          "type": "SYMBOL",
-          "name": "string"
+          "type": "PREC",
+          "value": 8,
+          "content": {
+            "type": "SYMBOL",
+            "name": "string"
+          }
         },
         {
-          "type": "SYMBOL",
-          "name": "number"
+          "type": "PREC",
+          "value": 7,
+          "content": {
+            "type": "SYMBOL",
+            "name": "number"
+          }
         },
         {
-          "type": "SYMBOL",
-          "name": "boolean"
+          "type": "PREC",
+          "value": 7,
+          "content": {
+            "type": "SYMBOL",
+            "name": "boolean"
+          }
         },
         {
-          "type": "SYMBOL",
-          "name": "array"
+          "type": "PREC",
+          "value": 6,
+          "content": {
+            "type": "SYMBOL",
+            "name": "array"
+          }
         },
         {
-          "type": "SYMBOL",
-          "name": "hash"
+          "type": "PREC",
+          "value": 5,
+          "content": {
+            "type": "SYMBOL",
+            "name": "hash"
+          }
         }
       ]
     },

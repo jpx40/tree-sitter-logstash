@@ -36,6 +36,9 @@ module.exports = grammar({
 	single_contents: $ => /[^']+/,
 
 	number: $ => seq(optional("-"), /[0-9]+/, optional(seq(".", repeat(/[0-9]/)))),
+	boolean: $ => choice($.true, $.false),
+	true: $ => "true",
+	false: $ => "false",
 	bareword: $ => /[A-Za-z_][A-Za-z0-9_]+/,
 	boolean_operator: $ => choice("and", "or", "xor", "nand"),
 	regexp_operator: $ => choice("=~", "!~"),
@@ -128,6 +131,7 @@ module.exports = grammar({
 	rvalue: $ => choice(
 		$.string,
 		$.number,
+		$.boolean,
 		$.selector,
 		$.array,
 		$.method_call,
@@ -135,10 +139,11 @@ module.exports = grammar({
 	),
 
 	value: $ => choice(
-		$.plugin,
-		$.bareword,
+		prec(10, $.plugin),
+		prec(9, $.bareword),
 		$.string,
 		$.number,
+		$.boolean,
 		$.array,
 		$.hash
 	),
@@ -147,6 +152,7 @@ module.exports = grammar({
 		$.bareword,
 		$.string,
 		$.number,
+		$.boolean,
 		$.array,
 		$.hash
 	),

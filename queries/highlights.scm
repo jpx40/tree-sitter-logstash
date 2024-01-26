@@ -4,10 +4,18 @@
 	"input"
 	"output"
 	"filter"
+] @keyword
+
+[
+
 	"if"
 	"else"
+	"elseif"
+] @keyword.conditional
+
+[
 	(plugin_name)
-] @keyword
+] @keyword.function
 
 ; Literals
 
@@ -22,12 +30,19 @@
   (number)
 ] @number
 
+[
+	(true)
+	(false)
+] @boolean
+
 (comment) @comment
 
 ; Operators
-
 [
-(arrow)
+  "!"
+  "=="
+  "=~"
+  "!~"
 ] @operator
 
 [

@@ -38,6 +38,25 @@
     }
   },
   {
+    "type": "boolean",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "false",
+          "named": true
+        },
+        {
+          "type": "true",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "boolean_operator",
     "named": true,
     "fields": {}
@@ -552,6 +571,10 @@
           "named": true
         },
         {
+          "type": "boolean",
+          "named": true
+        },
+        {
           "type": "method_call",
           "named": true
         },
@@ -656,6 +679,10 @@
         },
         {
           "type": "bareword",
+          "named": true
+        },
+        {
+          "type": "boolean",
           "named": true
         },
         {
@@ -790,6 +817,10 @@
     "named": false
   },
   {
+    "type": "false",
+    "named": true
+  },
+  {
     "type": "filter",
     "named": false
   },
@@ -827,6 +858,10 @@
   },
   {
     "type": "single_contents",
+    "named": true
+  },
+  {
+    "type": "true",
     "named": true
   },
   {

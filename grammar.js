@@ -99,7 +99,7 @@ module.exports = grammar({
 	),
 
 	if: $ => seq("if", $.condition, "{", repeat($.branch_or_plugin), "}"),
-	else_if: $ => seq("else", "if", $.condition, "{", repeat($.branch_or_plugin), "}"),
+	else_if: $ => seq("elseif", $.condition, "{", repeat($.branch_or_plugin), "}"),
 	else: $ => seq("else", $.condition, "{", repeat($.branch_or_plugin), "}"),
 
 	condition: $ => seq($.expression, repeat(seq($.boolean_operator, $.expression))),

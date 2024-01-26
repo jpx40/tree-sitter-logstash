@@ -426,11 +426,7 @@
       "members": [
         {
           "type": "STRING",
-          "value": "else"
-        },
-        {
-          "type": "STRING",
-          "value": "if"
+          "value": "elseif"
         },
         {
           "type": "SYMBOL",

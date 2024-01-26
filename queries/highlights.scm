@@ -15,7 +15,7 @@
 
 [
 	(plugin_name)
-] @keyword.function
+] @function
 
 ; Literals
 

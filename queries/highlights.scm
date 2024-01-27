@@ -39,10 +39,7 @@
 
 ; Operators
 [
-  "!"
-  "=="
-  "=~"
-  "!~"
+ (compare_operator)
 ] @operator
 
 [

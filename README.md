@@ -8,6 +8,12 @@ This is an implementation of the treetop logstash grammar for tree-sitter.
 - The parser is complete, however I have some work to do on highlighting the syntax better
 - nvim-treesitter expects a unqiue-ish filename, so unlike the logstash standard, this project expects logstash pipelines to have the .logastash file extension
 
+## Example
+
+What highlighting of `tests/example.logstash` looks like
+
+![image of colored code](docs/example.png)
+
 ## Neovim
 
 `nvim-treesitter` has great [instructions](https://github.com/nvim-treesitter/nvim-treesitter?tab=readme-ov-file#adding-parsers). Below is a walkthrough of their intrsuctions, but focused on tree-sitter-logstash

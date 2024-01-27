@@ -1,0 +1,87 @@
+input {
+  rabbitmq {
+    host => "localhost"
+    port => 5672
+    vhost => "/"
+    durable => true
+    queue => "active_call_queue"
+    ack => true
+    user => "$rabbit"
+    password => "thebestmostsecurepasswordever"
+	codec => json {
+		target => "[body]"
+	}
+  }
+}
+
+filter {
+	mutate {
+		convert => {
+			"[channelState][Event-Date-Timestamp]" => "integer"
+		}
+	}
+	ruby {
+		path => "/etc/logstash-files/field_whitelist.rb"
+		script_params => {
+			"top_level_key" => "body"
+			"whitelist_names" => [ "FreeSWITCH-Switchname", "Caller-Network-Addr", "FreeSWITCH-IPv4", "Event-Date-Timestamp", "Call-Direction", "Channel-Call-UUID", "Answer-State", "Caller-Direction", "Caller-Caller-ID-Name", "Caller-Caller-ID-Number", "Caller-ANI", "Caller-Destination-Number", "Caller-Context" ]
+		}
+	}
+
+	if [body][Call-Direction] == "inbound" and [body][Answer-State] == "hangup" {
+		ruby {
+			code => '
+				state = event.get("body").to_hash
+				ts = state["Event-Date-Timestamp"]
+				state["Event-Date-Timestamp"] = ts/1000
+				event.set("body", state)
+			'
+		}
+
+		date {
+			match => ["[body][Event-Date-Timestamp]", "UNIX_MS"]
+			target => "hangup_time"
+		}
+	}
+}
+
+output {
+  if [body][Call-Direction] == "inbound" {
+    mongodb {
+      uri => "mongo://localhost:27017"
+      collection => "activeCalls"
+      database => "FreeswitchDB"
+      isodate => true
+      action => "update"
+      upsert => true
+      max_retries => 3
+      filter => {
+        "call_id" => "[body][Channel-Call-UUID]"
+      }
+      update_expressions => {
+        "$set" => {
+		  "hangup_time" => "[hangup_time]"
+          "a_legs" => body
+        }
+      }
+    }
+  } else {
+    mongodb {
+      uri => "mongo://localhost:27017"
+      collection => "activeCalls"
+      database => "FreeswitchDB"
+      isodate => true
+      action => "update"
+      upsert => true
+      max_retries => 3
+      filter => {
+        "call_id" => "[body][Channel-Call-UUID]"
+      }
+      update_expressions => {
+        "$set" => {
+          "b_legs" => body
+        }
+      }
+    }
+  }
+}

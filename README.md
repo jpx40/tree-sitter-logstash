@@ -4,8 +4,8 @@ This is an implementation of the treetop logstash grammar for tree-sitter.
 
 ## Notes
 
-- While I tried to stick as close to the original grammar as possible in hopes of cloneing "bug for bug", some changes have been made. I see them as optimizations. Only time will tell.
-- The parser is complete, however I have some work to do on highlighting the syntax better
+- There are differences between treetop and tree-sitter. I have done my best to match tree top, however deviations may exist
+- This is good enough for syntax highlighting, I am working on using this as a config validator
 - nvim-treesitter expects a unqiue-ish filename, so unlike the logstash standard, this project expects logstash pipelines to have the .logastash file extension
 
 ## Example
